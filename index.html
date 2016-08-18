@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<script src="/web3.js/dist/web3.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
+		<link rel="stylesheet" type="text/css" href="/EtherProof.css" />
+	</head>
+	<body>
+		<h1> Ether Proof </h1>
+		<a target = "_blank" href="/explanation.html">What is this?</a>
+		<br><br>
+		<h2> Check the Existence of Your File</h2>
+		<div id="drop-zone">
+			Drop File Here...
+			<div id="clickHere">
+				or click here...
+				<input type="file" name="file" id="file" />
+			</div>
+		</div>
+		<br><br>
+		<div id="chosenFile">
+			No File Chosen
+		</div>
+		<br><br>
+		<div id="hash">
+		</div>
+		<br>
+		<div id="existence">
+		</div>
+		<br>
+		<form style="display: none" id="register">
+			Registrant (you must unlock this account):
+			<select id="accounts">
+			</select>
+			<br><br>
+			<input type="button" value="Submit" onclick="register(this.form)" />
+		</form>
+		<h2>Most Recent Hashes Registered</h2>
+		<table align="center" id="recentHashes">
+			<tr>
+				<th> Hash </th>
+				<th> Timestamp </th>
+				<th> Block Number </th>
+			</tr>
+		</table>
+		<br><br>
+		<h2> Search The Existence of a Hash </h2>
+		<form>
+			<input type="text" name="searchHash" />
+			<input type="button" value="Search" onclick="search(this.form)" />
+		</form>
+		<div id="searchResult">
+		</div>
+		<script src="/EtherProof.js"></script>
+	</body>
+</html>

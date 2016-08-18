@@ -1,0 +1,101 @@
+body {
+	text-align: center;
+	font-family: words;
+	background-color: #eee6ff;
+}
+
+h1 {
+	font-size: 40px;
+}
+
+input[type="button"] {
+	padding: 10px;
+	font-family: words;
+	border: 1px solid black;
+	cursor: pointer;
+	background-color: #e6f9ff;
+	font-size: 20px;
+}
+
+input[type="button"]:hover {
+	background-color: #99e7ff;
+}
+
+#myFile {
+	display: none;
+}
+
+select, input[type="text"] {
+	padding: 5px;
+	background-color: white;
+	font-family: words;
+}
+
+#drop-zone {
+        width: 300px;
+        height: 200px;
+        position:absolute;
+        left:50%;
+        margin-left:-150px;
+        border: 2px dashed rgba(0,0,0,.3);
+        border-radius: 20px;
+        text-align: center;
+        position: relative;
+        line-height: 180px;
+        font-size: 20px;
+        color: rgba(0,0,0,.3);
+        font-family: words;
+}
+
+#drop-zone input {
+        position: absolute;
+        cursor: pointer;
+        left: 0px;
+        top: 0px;
+        opacity:0;
+}
+
+#drop-zone.mouse-over {
+        border: 2px dashed rgba(0,0,0,.5);
+        color: rgba(0,0,0,.5);
+}
+
+
+#clickHere {
+       position: absolute;
+       cursor: pointer;
+       left: 50%;
+       top: 50%;
+       margin-left: -50px;
+       margin-top: 20px;
+       line-height: 26px;
+       color: white;
+       font-size: 12px;
+       width: 100px;
+       height: 26px;
+       border-radius: 4px;
+       background-color: #3b85c3;
+       font-family: words;
+}
+
+#clickHere:hover {
+        background-color: #4499DD;
+
+}
+
+table, th, tr, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+	padding: 5px;
+	background-color: #e6ffe6;
+	text-align: center;
+}
+
+th {
+	background-color: #99ff99;
+}
+
+@font-face {
+        font-family: words;
+        src: url(Quicksand-Regular.otf);
+}
