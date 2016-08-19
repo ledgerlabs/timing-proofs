@@ -11,6 +11,23 @@ var toBeHashed = '';
 var EtherProofAPI = [{"constant":true,"inputs":[{"name":"hash","type":"bytes32"}],"name":"getBlockNumber","outputs":[{"name":"","type":"uint256"}],"type":"function"},{"constant":false,"inputs":[{"name":"hash","type":"bytes32"}],"name":"addFile","outputs":[],"type":"function"},{"constant":true,"inputs":[{"name":"hash","type":"bytes32"}],"name":"getTimestamp","outputs":[{"name":"","type":"uint256"}],"type":"function"},{"constant":true,"inputs":[{"name":"hash","type":"bytes32"}],"name":"checkExistence","outputs":[{"name":"","type":"bool"}],"type":"function"}];
 // Need to get a permanent address once deployed on main net
 var address = '0xd49bc1cc5a80835b0a70875f9594204d6dd5a0dc';
+/* Copy paste the following code into geth to deploy the contract.
+Once the contract is deployed (either on main net or your private test net), 
+copy paste its address into the line above replacing the current address
+Web3 deploy:
+var etherproofContract = web3.eth.contract([{"constant":true,"inputs":[{"name":"hash","type":"bytes32"}],"name":"getBlockNumber","outputs":[{"name":"","type":"uint256"}],"type":"function"},{"constant":false,"inputs":[{"name":"hash","type":"bytes32"}],"name":"addFile","outputs":[],"type":"function"},{"constant":true,"inputs":[{"name":"hash","type":"bytes32"}],"name":"getTimestamp","outputs":[{"name":"","type":"uint256"}],"type":"function"},{"constant":true,"inputs":[{"name":"hash","type":"bytes32"}],"name":"checkExistence","outputs":[{"name":"","type":"bool"}],"type":"function"}]);
+var etherproof = etherproofContract.new(
+   {
+     from: web3.eth.accounts[0], 
+     data: '606060405261023a806100126000396000f360606040526000357c010000000000000000000000000000000000000000000000000000000090048063473781451461005a5780636b31827014610086578063d45c44351461009e578063eef66dac146100ca57610058565b005b61007060048080359060200190919050506100f8565b6040518082815260200191505060405180910390f35b61009c600480803590602001909190505061012a565b005b6100b460048080359060200190919050506101a2565b6040518082815260200191505060405180910390f35b6100e060048080359060200190919050506101d4565b60405180821515815260200191505060405180910390f35b60006000600050600083600019168152602001908152602001600020600050600101600050549050610125565b919050565b610133816101d4565b80156101415750620186a034105b1561014b57610002565b60406040519081016040528042815260200143815260200150600060005060008360001916815260200190815260200160002060005060008201518160000160005055602082015181600101600050559050505b50565b600060006000506000836000191681526020019081526020016000206000506000016000505490506101cf565b919050565b600060006000600050600084600019168152602001908152602001600020600050600001600050541415801561022e5750600060006000506000846000191681526020019081526020016000206000506001016000505414155b9050610235565b91905056', 
+     gas: 4700000
+   }, function (e, contract){
+    console.log(e, contract);
+    if (typeof contract.address !== 'undefined') {
+         console.log('Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
+    }
+ })
+*/
 var EtherProof = web3.eth.contract(EtherProofAPI).at(address);
 
 $(function () {
