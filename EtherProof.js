@@ -115,22 +115,37 @@ function loop() {
 }
 
 function existence() {
-	var hash = document.getElementById('hash').textContent.slice(-66);
-	var existence = document.getElementById('existence');
-	if (hash.length != 66) {
-		existence.innerHTML = '<h2> Pick a file and generate a hash first </h2>';
-		document.getElementById('register').style.display = 'none';
-	} else if (!EtherProof.checkExistence(hash)) {
-		existence.innerHTML = '<h2> This File Does Not Exist </h2>';
-		existence.innerHTML += 'Register Your File Now for 100 000 wei';
-		existence.innerHTML += '<br>';
-		document.getElementById('register').style.display = 'block';
-	} else {
-		document.getElementById('register').style.display = 'none';
-		existence.innerHTML = '<h2> This File Exists </h2>';
-		existence.innerHTML += '<p> Timestamp: ' + new Date(EtherProof.getTimestamp(hash) * 1000) + '</p>' +
-			'<p> Block Number: ' + EtherProof.getBlockNumber(hash) + '</p>';
-	}
+        var hash = document.getElementById('hash').textContent.slice(-66);
+        var existence = document.getElementById('existence');
+        var fileExistence = EtherProof.checkExistence(hash, function(error, result) {
+                if (error) {
+                        console.error(error);
+                }
+        });
+        if (hash.length != 66) {
+                existence.innerHTML = '<h2> Pick a file and generate a hash first </h2>';
+                document.getElementById('register').style.display = 'none';
+        } else if (!fileExistence) {
+                existence.innerHTML = '<h2> This File Does Not Exist </h2>';
+                existence.innerHTML += 'Register Your File Now for 100 000 wei';
+                existence.innerHTML += '<br>';
+                document.getElementById('register').style.display = 'block';
+        } else {
+                document.getElementById('register').style.display = 'none';
+                existence.innerHTML = '<h2> This File Exists </h2>';
+                var timestamp = EtherProof.getTimestamp(hash, function(error, result) {
+                        if (error) {
+                                console.error(error);
+                        }
+                }); 
+                var blockNumber = EtherProof.getBlockNumber(hash, function(error, result) {
+                        if (error) {
+                                console.error(error);
+                        }
+                });
+                existence.innerHTML += '<p> Timestamp: ' + new Date(timestamp * 1000) + '</p>' +
+                        '<p> Block Number: ' + blockNumber + '</p>';
+        }
 }
 
 function register(form) {
@@ -178,36 +193,56 @@ function register(form) {
 }
 
 function updateTable() {
-	var hashTable = document.getElementById('recentHashes');
-	var numRows = hashTable.rows.length;
-	for (var i = 1; i < numRows; ++i) {
-		hashTable.deleteRow(1);
-	}
-	var length = JSON.parse(localStorage.getItem('recentHashes')).length;
-	if (length > 5) {
-		length = 5;
-	}
-	for (var j = 0; j < length; ++j) {
-		var row = hashTable.insertRow(1);
-		var newHash = row.insertCell(0);
-		var newTimestamp = row.insertCell(1);
-		var newBlockNumber = row.insertCell(2);
-		newHash.innerHTML = JSON.parse(localStorage.getItem('recentHashes'))[j];
-		newTimestamp.innerHTML = new Date(EtherProof.getTimestamp(newHash.innerHTML) * 1000);
-		newBlockNumber.innerHTML = EtherProof.getBlockNumber(newHash.innerHTML).toString();
-	}
+        var hashTable = document.getElementById('recentHashes');
+        var numRows = hashTable.rows.length;
+        for (var i = 1; i < numRows; ++i) {
+                hashTable.deleteRow(1);
+        }
+        var length = JSON.parse(localStorage.getItem('recentHashes')).length;
+        if (length > 5) {
+                length = 5;
+        }
+        for (var j = 0; j < length; ++j) {
+                var row = hashTable.insertRow(1);
+                var newHash = row.insertCell(0);
+                var newTimestamp = row.insertCell(1);
+                var newBlockNumber = row.insertCell(2);
+                newHash.innerHTML = JSON.parse(localStorage.getItem('recentHashes'))[j];
+                var timestamp = EtherProof.getTimestamp(newHash.innerHTML, function(error, result) {
+                        if (error) {
+                                console.error(error);
+                        }
+                });
+                var blockNumber = EtherProof.getBlockNumber(newHash.innerHTML, function(error, result) {
+                        if (error) {
+                                console.error(error);
+                        }
+                });
+                newTimestamp.innerHTML = new Date(timestamp * 1000);
+                newBlockNumber.innerHTML = blockNumber;
+        }
 }
 
 function search(form) {
-	var hash = form.searchHash.value;
-	var searchResult = document.getElementById('searchResult');
-	if (!EtherProof.checkExistence(hash)) {
-		searchResult.innerHTML = '<h2> This File Does Not Exist </h2>';
-	} else {
-		searchResult.innerHTML = '<h2> This File Exists </h2>';
-		searchResult.innerHTML += '<p> Timestamp: ' + new Date(EtherProof.getTimestamp(hash) * 1000) + '</p>' +
-			'<p> Block Number: ' + EtherProof.getBlockNumber(hash) + '</p>';
-	}
+        var hash = form.searchHash.value;
+        var searchResult = document.getElementById('searchResult');
+        if (!EtherProof.checkExistence(hash)) {
+                searchResult.innerHTML = '<h2> This File Does Not Exist </h2>';
+        } else {
+                searchResult.innerHTML = '<h2> This File Exists </h2>';
+                var timestamp = EtherProof.getTimestamp(hash, function(error, result) {
+                        if (error) {
+                                console.error(error);
+                        }
+                });
+                var blockNumber = EtherProof.getBlockNumber(hash, function(error, result) {
+                        if (error) {
+                                console.error(error); 
+                        }
+                });
+                searchResult.innerHTML += '<p> Timestamp: ' + new Date(timestamp * 1000) + '</p>' +
+                        '<p> Block Number: ' + blockNumber + '</p>';
+        }
 }
 
 $(document).ready(function() {
